@@ -1,29 +1,19 @@
 <script setup lang="ts">
-// Gradient shape images from Figma assets
-const shapes = [
-  {
-    gradient: 'https://www.figma.com/api/mcp/asset/eea8297f-fe87-4bdb-921c-fff601ec074f',
-    image: 'https://www.figma.com/api/mcp/asset/cec96d97-2eea-49fa-bbd5-2c28413babe3',
-  },
-  {
-    gradient: 'https://www.figma.com/api/mcp/asset/605c5d3f-dc6d-4268-84c9-e156a66baa61',
-    image: 'https://www.figma.com/api/mcp/asset/7ec3759d-c47f-4c03-9c93-1a2676598f0b',
-  },
-  {
-    gradient: 'https://www.figma.com/api/mcp/asset/06092cae-1100-4e91-b865-1de58aae991a',
-    image: 'https://www.figma.com/api/mcp/asset/7ec3759d-c47f-4c03-9c93-1a2676598f0b',
-  },
-  {
-    gradient: 'https://www.figma.com/api/mcp/asset/28af15f0-bb90-45cf-aed8-fb438acb5d72',
-    image: 'https://www.figma.com/api/mcp/asset/86ba9140-2c87-4b24-b1d7-30e4d2beb3a0',
-  },
-  {
-    gradient: 'https://www.figma.com/api/mcp/asset/d165a3e7-e946-40f3-af55-48ff8873e72a',
-    image: 'https://www.figma.com/api/mcp/asset/cec96d97-2eea-49fa-bbd5-2c28413babe3',
-  },
-]
+// Hero shapes mapping (Shape1–5, 560×560 RGBA PNG with transparency):
+// Shape1 = ring (pink-blue)
+// Shape2 = rounded square (pink-yellow)
+// Shape3 = S-form (pink-orange)
+// Shape4 = blob/ameba (yellow-blue)
+// Shape5 = trefoil (pink-blue)
+import shape1 from '@/assets/images/shapes/Shape1.png'
+import shape2 from '@/assets/images/shapes/Shape2.png'
+import shape3 from '@/assets/images/shapes/Shape3.png'
+import shape4 from '@/assets/images/shapes/Shape4.png'
+import shape5 from '@/assets/images/shapes/Shape5.png'
 
-// Mobile shapes (2 visible)
+const shapes = [shape1, shape2, shape3, shape4, shape5]
+
+// Mobile: first 2 shapes only
 const mobileShapes = [shapes[0], shapes[1]]
 </script>
 
@@ -41,31 +31,27 @@ const mobileShapes = [shapes[0], shapes[1]]
 
     <!-- Desktop: 5 shapes row -->
     <div class="hero__shapes hero__shapes--desktop">
-      <div v-for="(shape, i) in shapes" :key="i" class="hero__shape-container">
-        <div
-          class="hero__shape"
-          :style="{
-            maskImage: `url('${shape.gradient}')`,
-            WebkitMaskImage: `url('${shape.gradient}')`,
-          }"
-        >
-          <img :src="shape.image" alt="" class="hero__shape-img" loading="lazy" />
-        </div>
+      <div v-for="(src, i) in shapes" :key="i" class="hero__shape-container">
+        <img
+          :src="src"
+          alt=""
+          class="hero__shape-img"
+          :loading="i < 2 ? 'eager' : 'lazy'"
+          :fetchpriority="i === 0 ? 'high' : 'auto'"
+        />
       </div>
     </div>
 
     <!-- Mobile: 2 shapes -->
     <div class="hero__shapes hero__shapes--mobile">
-      <div v-for="(shape, i) in mobileShapes" :key="i" class="hero__shape-container">
-        <div
-          class="hero__shape"
-          :style="{
-            maskImage: `url('${shape.gradient}')`,
-            WebkitMaskImage: `url('${shape.gradient}')`,
-          }"
-        >
-          <img :src="shape.image" alt="" class="hero__shape-img" loading="lazy" />
-        </div>
+      <div v-for="(src, i) in mobileShapes" :key="i" class="hero__shape-container">
+        <img
+          :src="src"
+          alt=""
+          class="hero__shape-img"
+          :loading="i === 0 ? 'eager' : 'lazy'"
+          :fetchpriority="i === 0 ? 'high' : 'auto'"
+        />
       </div>
     </div>
   </section>
@@ -188,7 +174,6 @@ const mobileShapes = [shapes[0], shapes[1]]
       display: none;
       padding: 0 16px;
       gap: 0;
-      // margin-top: 60px;
 
       @media (max-width: 767px) {
         display: flex;
@@ -196,7 +181,6 @@ const mobileShapes = [shapes[0], shapes[1]]
 
       .hero__shape-container {
         flex: 1;
-        aspect-ratio: 1;
         padding: 0;
       }
     }
@@ -204,7 +188,6 @@ const mobileShapes = [shapes[0], shapes[1]]
 
   &__shape-container {
     flex: 1;
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,23 +195,10 @@ const mobileShapes = [shapes[0], shapes[1]]
     overflow: hidden;
   }
 
-  &__shape {
-    width: 100%;
-    aspect-ratio: 1;
-    mask-size: cover;
-    -webkit-mask-size: cover;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    overflow: hidden;
-    position: relative;
-  }
-
   &__shape-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     display: block;
   }
 }

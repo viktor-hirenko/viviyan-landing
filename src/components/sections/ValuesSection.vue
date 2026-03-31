@@ -1,9 +1,18 @@
 <script setup lang="ts">
+// Values icons mapping (120×120 RGBA PNG):
+// Shape6  = 4-petal flower (pink-yellow)   → Transparency
+// Shape7  = S-form (yellow-green)           → Progress
+// Shape11 = 4-pointed star (blue-pink)      → Partnership
+//
+// NOTE: Number images (1, 2, 3) were not exported to shapes folder.
+// Numbers are rendered as styled text with CSS gradient to match the design intent.
+import shape6 from '@/assets/images/shapes/Shape6.png'
+import shape7 from '@/assets/images/shapes/Shape7.png'
+import shape11 from '@/assets/images/shapes/Shape11.png'
+
 interface ValueItem {
   number: string
-  numberImg: string
-  icon: string
-  iconGradient: string
+  iconImg: string
   title: string
   description: string
 }
@@ -11,27 +20,21 @@ interface ValueItem {
 const values: ValueItem[] = [
   {
     number: '1',
-    numberImg: 'https://www.figma.com/api/mcp/asset/a4548134-7a79-456b-a696-d60cf5f1dec1',
-    icon: 'https://www.figma.com/api/mcp/asset/4099a147-6124-491e-890a-3d173b634afe',
-    iconGradient: 'https://www.figma.com/api/mcp/asset/09fac935-0687-4b56-8ab1-f4ec23eba023',
+    iconImg: shape6,
     title: 'Transparency',
     description:
       'We believe strong work starts with clear communication. No unnecessary complexity, no vague promises — just honest dialogue, realistic planning, and shared understanding at every stage.',
   },
   {
     number: '2',
-    numberImg: 'https://www.figma.com/api/mcp/asset/851032bc-1b71-489c-b959-960b5de920b3',
-    icon: 'https://www.figma.com/api/mcp/asset/d7f2b20d-3f4a-4f46-9cf9-fad303a37a8a',
-    iconGradient: 'https://www.figma.com/api/mcp/asset/4bed72e7-2075-4192-afc3-a0153b8cbbba',
+    iconImg: shape7,
     title: 'Progress',
     description:
       'We value movement, not noise. Step by step, we help businesses improve processes, strengthen operations, and move closer to their goals with confidence.',
   },
   {
     number: '3',
-    numberImg: 'https://www.figma.com/api/mcp/asset/a0f87bf6-4028-4c01-ae29-9516daf36009',
-    icon: 'https://www.figma.com/api/mcp/asset/4c2c1ccd-a8e2-4edd-8489-f83888e6f739',
-    iconGradient: 'https://www.figma.com/api/mcp/asset/e96665dc-05b4-4e08-905e-d6eea8214e48',
+    iconImg: shape11,
     title: 'Partnership',
     description:
       'We do not see cooperation as a formal process. We build long-term relationships based on trust, responsibility, and a real commitment to the people we work with.',
@@ -50,21 +53,16 @@ const values: ValueItem[] = [
       <article v-for="value in values" :key="value.title" class="values__card">
         <!-- Icon top-right -->
         <div class="values__card-top">
-          <div
+          <img
+            :src="value.iconImg"
+            :alt="value.title + ' icon'"
             class="values__card-icon"
-            :style="{
-              maskImage: `url('${value.icon}')`,
-              WebkitMaskImage: `url('${value.icon}')`,
-            }"
-          >
-            <img :src="value.iconGradient" :alt="value.title + ' icon'" loading="lazy" />
-          </div>
+            loading="lazy"
+          />
         </div>
 
-        <!-- Number -->
-        <div class="values__card-number">
-          <img :src="value.numberImg" :alt="value.number" loading="lazy" />
-        </div>
+        <!-- Number rendered as gradient text -->
+        <div class="values__card-number" aria-hidden="true">{{ value.number }}</div>
 
         <!-- Text -->
         <div class="values__card-text">
@@ -186,49 +184,46 @@ const values: ValueItem[] = [
   &__card-icon {
     width: 60px;
     height: 60px;
-    mask-size: cover;
-    -webkit-mask-size: cover;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    overflow: hidden;
+    object-fit: contain;
+    display: block;
     flex-shrink: 0;
 
     @media (max-width: 1024px) {
       width: 48px;
       height: 48px;
     }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
   }
 
   &__card-number {
     width: 140px;
     height: 140px;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     flex-shrink: 0;
+    font-family: var(--font-display);
+    font-variation-settings:
+      'opsz' 14,
+      'wdth' 100;
+    font-weight: 800;
+    font-size: 120px;
+    line-height: 1;
+    // Gradient text effect matching the design palette
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 40%, #a29bfe 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 
     @media (max-width: 1024px) {
       width: 120px;
       height: 120px;
+      font-size: 100px;
     }
 
     @media (max-width: 767px) {
       width: 120px;
       height: 120px;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+      font-size: 100px;
     }
   }
 

@@ -1,18 +1,13 @@
 <script setup lang="ts">
-const decorShapes = [
-  {
-    mask: 'https://www.figma.com/api/mcp/asset/068ae10d-99c7-42c7-9d9b-5abab8443bac',
-    img: 'https://www.figma.com/api/mcp/asset/d534db31-95a7-4705-b9bd-d0d3f773ab06',
-  },
-  {
-    mask: 'https://www.figma.com/api/mcp/asset/0870a05d-e29e-46bd-b42a-4094098b6cec',
-    img: 'https://www.figma.com/api/mcp/asset/09fac935-0687-4b56-8ab1-f4ec23eba023',
-  },
-  {
-    mask: 'https://www.figma.com/api/mcp/asset/64c4cd50-8c83-4cfa-9771-3522366a9b08',
-    img: 'https://www.figma.com/api/mcp/asset/53efe2d5-8091-41a5-88fc-dad82b951e9e',
-  },
-]
+// Services decorative shapes mapping (120×120 RGBA PNG):
+// Shape8  = 4-pointed star (multicolor)
+// Shape9  = 3 bubbles stacked (blue-pink)
+// Shape10 = flower/blob (pink-orange)
+import shape8 from '@/assets/images/shapes/Shape8.png'
+import shape9 from '@/assets/images/shapes/Shape9.png'
+import shape10 from '@/assets/images/shapes/Shape10.png'
+
+const decorShapes = [shape8, shape9, shape10]
 </script>
 
 <template>
@@ -32,17 +27,14 @@ const decorShapes = [
       </p>
 
       <div class="services__shapes">
-        <div
-          v-for="(shape, i) in decorShapes"
+        <img
+          v-for="(src, i) in decorShapes"
           :key="i"
+          :src="src"
+          alt=""
           class="services__shape"
-          :style="{
-            maskImage: `url('${shape.mask}')`,
-            WebkitMaskImage: `url('${shape.mask}')`,
-          }"
-        >
-          <img :src="shape.img" alt="" loading="lazy" />
-        </div>
+          loading="lazy"
+        />
       </div>
     </div>
   </section>
@@ -153,25 +145,13 @@ const decorShapes = [
   &__shape {
     width: 60px;
     height: 60px;
-    mask-size: cover;
-    -webkit-mask-size: cover;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    overflow: hidden;
+    object-fit: contain;
+    display: block;
     flex-shrink: 0;
 
     @media (max-width: 767px) {
       width: 48px;
       height: 48px;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
     }
   }
 }

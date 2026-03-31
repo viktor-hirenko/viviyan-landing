@@ -1,17 +1,16 @@
 <script setup lang="ts">
+// About feature badge icons (120×120 RGBA PNG, displayed at 20×20):
+// Shape6  = 4-petal flower (pink-yellow)  → Practical thinking
+// Shape7  = S-form (yellow-green)         → Structured execution
+// Shape8  = 4-pointed star (multicolor)   → Business focus
+import shape6 from '@/assets/images/shapes/Shape6.png'
+import shape7 from '@/assets/images/shapes/Shape7.png'
+import shape8 from '@/assets/images/shapes/Shape8.png'
+
 const features = [
-  {
-    icon: 'https://www.figma.com/api/mcp/asset/bde80612-9ca6-4586-a8aa-fbfb5bfbe3a9',
-    label: 'Practical thinking',
-  },
-  {
-    icon: 'https://www.figma.com/api/mcp/asset/0c5d4f0c-20e2-41fd-9ab0-5aae10958337',
-    label: 'Structured execution',
-  },
-  {
-    icon: 'https://www.figma.com/api/mcp/asset/0f3b6a04-d3ba-49dc-b4ae-3e67c0b2c02e',
-    label: 'Business focus',
-  },
+  { icon: shape6, label: 'Practical thinking' },
+  { icon: shape7, label: 'Structured execution' },
+  { icon: shape8, label: 'Business focus' },
 ]
 </script>
 

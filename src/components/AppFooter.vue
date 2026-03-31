@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+// Shape12 = contour S-form (pink-yellow gradient outline, 632×708 RGBA PNG) → footer decorative shape
+// Shape8  = 4-pointed star → arrow icon placeholder (original arrow icon not exported)
+import shape12 from '@/assets/images/shapes/Shape12.png'
+import shape8 from '@/assets/images/shapes/Shape8.png'
 
-const arrowIcon = 'https://www.figma.com/api/mcp/asset/93905c7b-9951-49ca-8b4b-6a4888f91aa1'
-const decorShape = 'https://www.figma.com/api/mcp/asset/9b6fd036-19aa-4c7e-b501-016a679c0b62'
-const decorShapeImg = 'https://www.figma.com/api/mcp/asset/8b8c5f1b-ea43-4b6a-bf41-c572cc3193fd'
+const arrowIcon = shape8
+const decorShapeImg = shape12
 </script>
 
 <template>
@@ -31,16 +34,7 @@ const decorShapeImg = 'https://www.figma.com/api/mcp/asset/8b8c5f1b-ea43-4b6a-bf
     </div>
 
     <!-- Decorative shape -->
-    <div
-      class="footer__shape"
-      :style="{
-        maskImage: `url('${decorShape}')`,
-        WebkitMaskImage: `url('${decorShape}')`,
-      }"
-      aria-hidden="true"
-    >
-      <img :src="decorShapeImg" alt="" loading="lazy" />
-    </div>
+    <img :src="decorShapeImg" alt="" class="footer__shape" aria-hidden="true" loading="lazy" />
   </footer>
 </template>
 
@@ -206,35 +200,20 @@ const decorShapeImg = 'https://www.figma.com/api/mcp/asset/8b8c5f1b-ea43-4b6a-bf
     right: 100px;
     top: 45px;
     bottom: 45px;
-    aspect-ratio: 316 / 354;
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    overflow: hidden;
+    width: auto;
+    height: calc(100% - 90px);
+    object-fit: contain;
+    display: block;
 
     @media (max-width: 1024px) {
       right: 52px;
       top: 75px;
       bottom: 99px;
+      height: calc(100% - 174px);
     }
 
     @media (max-width: 767px) {
       display: none;
-      right: 0;
-      top: auto;
-      bottom: 0;
-      height: 200px;
-      aspect-ratio: 316 / 354;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
     }
   }
 }
