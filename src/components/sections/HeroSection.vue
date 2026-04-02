@@ -22,7 +22,7 @@ const { hero, heroShapes } = useAppConfig()
           alt=""
           class="hero__shape-img"
           :loading="i < 2 ? 'eager' : 'lazy'"
-          :fetchpriority="i === 0 ? 'high' : 'auto'"
+          :fetchpriority="i === 1 ? 'high' : 'auto'"
         />
       </div>
     </div>
