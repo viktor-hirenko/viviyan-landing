@@ -1,73 +1,84 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-// Shape12 = contour S-form (pink-yellow gradient outline, 632×708 RGBA PNG) → footer decorative shape
-// Shape8  = 4-pointed star → arrow icon placeholder (original arrow icon not exported)
-import shape12 from '@/assets/images/shapes/Shape12.png'
-import shape8 from '@/assets/images/shapes/Shape8.png'
+import { useAppConfig } from '@/composables/useAppConfig'
 
-const arrowIcon = shape8
-const decorShapeImg = shape12
+const { footer, footerAssets } = useAppConfig()
 </script>
 
 <template>
-  <footer class="footer">
-    <div class="footer__cta">
-      <p class="footer__cta-text">Stay aligned with business that moves forward.</p>
-      <button class="footer__btn">
-        <span class="footer__btn-label">Get in Touch</span>
-        <span class="footer__btn-icon" aria-hidden="true">
-          <img :src="arrowIcon" alt="" width="24" height="24" />
-        </span>
-      </button>
-    </div>
-
-    <div class="footer__bottom">
-      <div class="footer__links">
-        <RouterLink to="/privacy-policy" class="footer__link footer__link--underline"
-          >Privacy Policy</RouterLink
-        >
-        <RouterLink to="/terms-and-conditions" class="footer__link footer__link--underline"
-          >Terms and Conditions</RouterLink
-        >
+  <footer id="footer" class="footer">
+    <div class="footer__inner">
+      <div class="footer__cta">
+        <p class="footer__cta-text">{{ footer.ctaText }}</p>
+        <a :href="footer.ctaMailto" class="footer__btn">
+          <span class="footer__btn-label">{{ footer.ctaLabel }}</span>
+          <span class="footer__btn-icon" aria-hidden="true">
+            <img :src="footerAssets.arrowIcon" alt="" width="24" height="24" />
+          </span>
+        </a>
       </div>
-      <span class="footer__copyright">© 2022 VIVIYAN CORP LIMITED. All rights reserved.</span>
-    </div>
 
-    <!-- Decorative shape -->
-    <img :src="decorShapeImg" alt="" class="footer__shape" aria-hidden="true" loading="lazy" />
+      <div class="footer__bottom">
+        <div class="footer__links">
+          <RouterLink
+            v-for="link in footer.links"
+            :key="link.path"
+            :to="link.path"
+            class="footer__link footer__link--underline"
+          >
+            {{ link.label }}
+          </RouterLink>
+        </div>
+        <span class="footer__copyright">{{ footer.copyright }}</span>
+      </div>
+
+      <img
+        :src="footerAssets.decorShape"
+        alt=""
+        class="footer__shape"
+        aria-hidden="true"
+        loading="lazy"
+      />
+    </div>
   </footer>
 </template>
 
 <style scoped lang="scss">
 .footer {
-  background-color: #212122;
-  padding: 100px 100px 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  position: relative;
-  overflow: hidden;
+  scroll-margin-top: to-rem(100);
+  background-color: var(--color-surface);
 
-  @media (max-width: 1024px) {
-    padding: 100px 80px 60px;
-  }
+  &__inner {
+    max-width: to-rem(1440);
+    margin: 0 auto;
+    padding: to-rem(100) to-rem(100) to-rem(60);
+    display: flex;
+    flex-direction: column;
+    gap: to-rem(60);
+    position: relative;
+    overflow: hidden;
 
-  @media (max-width: 767px) {
-    padding: 60px 16px 24px;
-    gap: 60px;
+    @include mq($until: tablet) {
+      padding: to-rem(100) to-rem(80) to-rem(60);
+    }
+
+    @include mq($until: mobile) {
+      padding: to-rem(60) to-rem(16) to-rem(24);
+      gap: to-rem(60);
+    }
   }
 
   &__cta {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    max-width: 660px;
+    gap: to-rem(32);
+    max-width: to-rem(660);
     position: relative;
     z-index: 1;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       max-width: 100%;
-      gap: 32px;
+      gap: to-rem(32);
     }
   }
 
@@ -77,50 +88,51 @@ const decorShapeImg = shape12
       'opsz' 14,
       'wdth' 100;
     font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
-    color: #faf4f1;
+    font-size: to-rem(48);
+    line-height: to-rem(56);
+    color: var(--color-text-primary);
 
-    @media (max-width: 1024px) {
-      font-size: 40px;
-      line-height: 48px;
+    @include mq($until: tablet) {
+      font-size: to-rem(40);
+      line-height: to-rem(48);
     }
 
-    @media (max-width: 767px) {
-      font-size: 32px;
-      line-height: 40px;
+    @include mq($until: mobile) {
+      font-size: to-rem(32);
+      line-height: to-rem(40);
     }
   }
 
   &__btn {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 4px 4px 4px 20px;
-    background-color: #ffcb3c;
-    border-radius: 100px;
+    gap: to-rem(12);
+    padding: to-rem(4) to-rem(4) to-rem(4) to-rem(20);
+    background-color: var(--color-accent);
+    border-radius: var(--radius-pill);
     border: none;
     cursor: pointer;
     width: fit-content;
+    text-decoration: none;
     transition: opacity 0.2s ease;
 
     &:hover {
       opacity: 0.9;
     }
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       width: 100%;
-      max-width: 215px;
+      max-width: to-rem(215);
       justify-content: space-between;
     }
   }
 
   &__btn-label {
     font-family: var(--font-body);
-    font-size: 20px;
-    line-height: 24px;
+    font-size: to-rem(20);
+    line-height: to-rem(24);
     font-weight: 600;
-    color: #111;
+    color: var(--color-bg);
     flex: 1;
     min-width: 0;
   }
@@ -129,56 +141,56 @@ const decorShapeImg = shape12
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
-    background-color: #212122;
-    border-radius: 100px;
+    width: to-rem(56);
+    height: to-rem(56);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-pill);
     flex-shrink: 0;
 
     img {
-      width: 24px;
-      height: 24px;
+      width: to-rem(24);
+      height: to-rem(24);
       object-fit: contain;
     }
   }
 
   &__bottom {
     display: flex;
-    gap: 40px;
+    gap: to-rem(40);
     flex-wrap: wrap;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       flex-direction: column;
-      gap: 20px;
+      gap: to-rem(20);
     }
   }
 
   &__links {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: to-rem(40);
     flex-wrap: wrap;
     position: relative;
     z-index: 1;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       flex-direction: column;
       align-items: flex-start;
-      gap: 16px;
+      gap: to-rem(16);
     }
   }
 
   &__link {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: to-rem(14);
     font-weight: 500;
-    color: #bfbfbf;
+    color: var(--color-text-secondary);
     text-decoration: none;
-    line-height: 16px;
+    line-height: to-rem(16);
     transition: color 0.2s ease;
 
     &:hover {
-      color: #faf4f1;
+      color: var(--color-text-primary);
     }
 
     &--underline {
@@ -188,31 +200,30 @@ const decorShapeImg = shape12
 
   &__copyright {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: to-rem(14);
     font-weight: 400;
-    color: #999;
-    line-height: 16px;
+    color: var(--color-text-muted);
+    line-height: to-rem(16);
   }
 
-  // Decorative shape — positioned right side
   &__shape {
     position: absolute;
-    right: 100px;
-    top: 45px;
-    bottom: 45px;
+    right: to-rem(100);
+    top: to-rem(45);
+    bottom: to-rem(45);
     width: auto;
-    height: calc(100% - 90px);
+    height: calc(100% - #{to-rem(90)});
     object-fit: contain;
     display: block;
 
-    @media (max-width: 1024px) {
-      right: 52px;
-      top: 75px;
-      bottom: 99px;
-      height: calc(100% - 174px);
+    @include mq($until: tablet) {
+      right: to-rem(52);
+      top: to-rem(75);
+      bottom: to-rem(99);
+      height: calc(100% - #{to-rem(174)});
     }
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       display: none;
     }
   }

@@ -1,34 +1,26 @@
 <script setup lang="ts">
-// Services decorative shapes mapping (120×120 RGBA PNG):
-// Shape8  = 4-pointed star (multicolor)
-// Shape9  = 3 bubbles stacked (blue-pink)
-// Shape10 = flower/blob (pink-orange)
-import shape8 from '@/assets/images/shapes/Shape8.png'
-import shape9 from '@/assets/images/shapes/Shape9.png'
-import shape10 from '@/assets/images/shapes/Shape10.png'
+import { useAppConfig } from '@/composables/useAppConfig'
 
-const decorShapes = [shape8, shape9, shape10]
+const { services, servicesShapes } = useAppConfig()
 </script>
 
 <template>
   <section id="services" class="services">
     <div class="services__container">
       <div class="services__header">
-        <span class="services__label">Services</span>
+        <span class="services__label">{{ services.label }}</span>
         <h2 class="services__title">
-          We provide the support businesses need to operate and grow better.
+          {{ services.title }}
         </h2>
       </div>
 
       <p class="services__description">
-        Business moves fast, and strong execution matters. VIVIYAN CORP LIMITED offers practical
-        support and tailored solutions that help companies improve workflows, strengthen delivery,
-        and work with more confidence.
+        {{ services.description }}
       </p>
 
       <div class="services__shapes">
         <img
-          v-for="(src, i) in decorShapes"
+          v-for="(src, i) in servicesShapes"
           :key="i"
           :src="src"
           alt=""
@@ -42,37 +34,37 @@ const decorShapes = [shape8, shape9, shape10]
 
 <style scoped lang="scss">
 .services {
-  background-color: #111;
-  padding: 100px;
+  background-color: var(--color-bg);
+  padding: to-rem(100);
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @media (max-width: 1024px) {
-    padding: 100px 80px;
+  @include mq($until: tablet) {
+    padding: to-rem(100) to-rem(80);
   }
 
-  @media (max-width: 767px) {
-    padding: 60px 16px;
+  @include mq($until: mobile) {
+    padding: to-rem(60) to-rem(16);
   }
 
   &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
-    max-width: 1064px;
+    gap: to-rem(50);
+    max-width: to-rem(1064);
     width: 100%;
     text-align: center;
 
-    @media (max-width: 1024px) {
-      max-width: 864px;
+    @include mq($until: tablet) {
+      max-width: to-rem(864);
     }
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       align-items: flex-start;
       text-align: left;
-      gap: 50px;
+      gap: to-rem(50);
     }
   }
 
@@ -80,12 +72,12 @@ const decorShapes = [shape8, shape9, shape10]
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: to-rem(24);
     width: 100%;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       align-items: flex-start;
-      gap: 16px;
+      gap: to-rem(16);
     }
   }
 
@@ -93,13 +85,13 @@ const decorShapes = [shape8, shape9, shape10]
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 16px;
-    background-color: #212122;
-    border-radius: 100px;
+    padding: to-rem(12) to-rem(16);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-pill);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: to-rem(16);
     font-weight: 500;
-    color: #faf4f1;
+    color: var(--color-text-primary);
   }
 
   &__title {
@@ -108,50 +100,50 @@ const decorShapes = [shape8, shape9, shape10]
       'opsz' 14,
       'wdth' 100;
     font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
-    color: #faf4f1;
-    max-width: 848px;
+    font-size: to-rem(48);
+    line-height: to-rem(56);
+    color: var(--color-text-primary);
+    max-width: to-rem(848);
 
-    @media (max-width: 767px) {
-      font-size: 32px;
-      line-height: 40px;
+    @include mq($until: mobile) {
+      font-size: to-rem(32);
+      line-height: to-rem(40);
     }
   }
 
   &__description {
     font-family: var(--font-body);
-    font-size: 30px;
+    font-size: to-rem(30);
     font-weight: 300;
-    line-height: 40px;
-    color: #999;
+    line-height: to-rem(40);
+    color: var(--color-text-muted);
 
-    @media (max-width: 767px) {
-      font-size: 18px;
-      line-height: 28px;
+    @include mq($until: mobile) {
+      font-size: to-rem(18);
+      line-height: to-rem(28);
     }
   }
 
   &__shapes {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: to-rem(24);
 
-    @media (max-width: 767px) {
-      gap: 16px;
+    @include mq($until: mobile) {
+      gap: to-rem(16);
     }
   }
 
   &__shape {
-    width: 60px;
-    height: 60px;
+    width: to-rem(60);
+    height: to-rem(60);
     object-fit: contain;
     display: block;
     flex-shrink: 0;
 
-    @media (max-width: 767px) {
-      width: 48px;
-      height: 48px;
+    @include mq($until: mobile) {
+      width: to-rem(48);
+      height: to-rem(48);
     }
   }
 }

@@ -1,34 +1,21 @@
 <script setup lang="ts">
-// About feature badge icons (120×120 RGBA PNG, displayed at 20×20):
-// Shape6  = 4-petal flower (pink-yellow)  → Practical thinking
-// Shape7  = S-form (yellow-green)         → Structured execution
-// Shape8  = 4-pointed star (multicolor)   → Business focus
-import shape6 from '@/assets/images/shapes/Shape6.png'
-import shape7 from '@/assets/images/shapes/Shape7.png'
-import shape8 from '@/assets/images/shapes/Shape8.png'
+import { useAppConfig } from '@/composables/useAppConfig'
 
-const features = [
-  { icon: shape6, label: 'Practical thinking' },
-  { icon: shape7, label: 'Structured execution' },
-  { icon: shape8, label: 'Business focus' },
-]
+const { about, aboutFeatures } = useAppConfig()
 </script>
 
 <template>
   <section id="about" class="about">
     <div class="about__container">
       <h2 class="about__title">
-        Focus on <span class="about__title--accent">growth</span> — we'll handle the execution.
+        {{ about.titleBeforeAccent }}<span class="about__title--accent">{{ about.titleAccent }}</span>{{ about.titleAfterAccent }}
       </h2>
       <p class="about__description">
-        VIVIYAN CORP LIMITED helps businesses turn ideas into working solutions. We combine
-        practical thinking, structured execution, and a clear business focus to
-        <strong class="about__description--highlight"
-          >support companies at different stages of growth.</strong
-        >
+        {{ about.descriptionLead }}
+        <strong class="about__description--highlight">{{ about.descriptionHighlight }}</strong>
       </p>
       <div class="about__features">
-        <div v-for="feature in features" :key="feature.label" class="about__feature">
+        <div v-for="feature in aboutFeatures" :key="feature.label" class="about__feature">
           <span class="about__feature-icon" aria-hidden="true">
             <img :src="feature.icon" :alt="feature.label" width="20" height="20" loading="lazy" />
           </span>
@@ -41,37 +28,37 @@ const features = [
 
 <style scoped lang="scss">
 .about {
-  background-color: #111;
-  padding: 100px;
+  background-color: var(--color-bg);
+  padding: to-rem(100);
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @media (max-width: 1024px) {
-    padding: 100px 80px;
+  @include mq($until: tablet) {
+    padding: to-rem(100) to-rem(80);
   }
 
-  @media (max-width: 767px) {
-    padding: 60px 16px;
+  @include mq($until: mobile) {
+    padding: to-rem(60) to-rem(16);
   }
 
   &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
-    max-width: 1048px;
+    gap: to-rem(50);
+    max-width: to-rem(1048);
     width: 100%;
     text-align: center;
 
-    @media (max-width: 1024px) {
-      max-width: 864px;
+    @include mq($until: tablet) {
+      max-width: to-rem(864);
     }
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       align-items: flex-start;
       text-align: left;
-      gap: 50px;
+      gap: to-rem(50);
     }
   }
 
@@ -81,67 +68,67 @@ const features = [
       'opsz' 14,
       'wdth' 100;
     font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
-    color: #faf4f1;
+    font-size: to-rem(48);
+    line-height: to-rem(56);
+    color: var(--color-text-primary);
 
-    @media (max-width: 767px) {
-      font-size: 32px;
-      line-height: 40px;
+    @include mq($until: mobile) {
+      font-size: to-rem(32);
+      line-height: to-rem(40);
     }
 
     &--accent {
-      color: #ffcb3c;
+      color: var(--color-accent);
     }
   }
 
   &__description {
     font-family: var(--font-body);
-    font-size: 30px;
+    font-size: to-rem(30);
     font-weight: 300;
-    line-height: 40px;
-    color: #999;
+    line-height: to-rem(40);
+    color: var(--color-text-muted);
 
-    @media (max-width: 767px) {
-      font-size: 22px;
-      line-height: 32px;
+    @include mq($until: mobile) {
+      font-size: to-rem(22);
+      line-height: to-rem(32);
     }
 
     &--highlight {
       font-weight: 400;
-      color: #faf4f1;
+      color: var(--color-text-primary);
     }
   }
 
   &__features {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: to-rem(12);
     flex-wrap: wrap;
     justify-content: center;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       flex-direction: column;
       align-items: flex-start;
-      gap: 8px;
+      gap: to-rem(8);
     }
   }
 
   &__feature {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-    background-color: #212122;
-    border-radius: 100px;
+    gap: to-rem(8);
+    padding: to-rem(12) to-rem(16);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-pill);
   }
 
   &__feature-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: to-rem(20);
+    height: to-rem(20);
     flex-shrink: 0;
 
     img {
@@ -153,9 +140,9 @@ const features = [
 
   &__feature-label {
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: to-rem(16);
     font-weight: 400;
-    color: #faf4f1;
+    color: var(--color-text-primary);
     white-space: nowrap;
   }
 }

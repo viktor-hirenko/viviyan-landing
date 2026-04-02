@@ -1,83 +1,96 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, watch, watchEffect } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import MobileMenu from './MobileMenu.vue'
+import { useAppConfig } from '@/composables/useAppConfig'
+
+const route = useRoute()
+const router = useRouter()
+const { header, site, mobileMenu } = useAppConfig()
 
 const isMobileMenuOpen = ref(false)
+const burgerRef = ref<HTMLButtonElement | null>(null)
 
-function openMenu() {
-  isMobileMenuOpen.value = true
+function toggleMenu() {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
 function closeMenu() {
   isMobileMenuOpen.value = false
+  burgerRef.value?.focus()
 }
 
-const navItems = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Our Values', href: '#values' },
-  { label: 'Services', href: '#services' },
-]
+const navItems = header.nav
+const activeNavHref = ref<string | null>(null)
 
-const activeNavHref = ref<string>(navItems[0].href)
-
-function scrollTo(href: string, setActive = true) {
-  if (setActive) {
-    activeNavHref.value = href
+function syncActiveNavFromRoute() {
+  if (route.path !== '/') {
+    activeNavHref.value = null
+    return
   }
-  const id = href.replace('#', '')
-  const el = document.getElementById(id)
+  activeNavHref.value = route.hash || navItems[0].href
+}
+
+watch(() => [route.path, route.hash] as const, syncActiveNavFromRoute, { immediate: true })
+
+function scrollTo(href: string) {
+  activeNavHref.value = href
+
+  if (route.path !== '/') {
+    void router.push({ path: '/', hash: href })
+    return
+  }
+
+  const el = document.getElementById(href.replace('#', ''))
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
-function handleNavClick(href: string) {
-  scrollTo(href, true)
+function handleMobileNavigate(href: string) {
+  closeMenu()
+  scrollTo(href)
 }
 
-function handleCtaClick() {
-  scrollTo('#services', true)
-}
+watchEffect(() => {
+  document.body.style.overflow = isMobileMenuOpen.value ? 'hidden' : ''
+})
 </script>
 
 <template>
   <!-- Desktop header (centered pill nav) -->
   <header class="header">
-    <nav class="header__desktop" aria-label="Main navigation">
+    <nav class="header__desktop" :aria-label="header.navAriaLabel">
       <div class="header__nav-pill">
-        <button
+        <RouterLink
           v-for="item in navItems"
           :key="item.label"
-          type="button"
+          :to="{ path: '/', hash: item.href }"
           class="header__nav-item"
           :class="{ 'header__nav-item--active': activeNavHref === item.href }"
-          :aria-current="activeNavHref === item.href ? 'true' : undefined"
-          @click="handleNavClick(item.href)"
+          :aria-current="activeNavHref === item.href ? 'page' : undefined"
         >
           {{ item.label }}
-        </button>
+        </RouterLink>
       </div>
-      <button type="button" class="header__cta" @click="handleCtaClick">Get in Touch</button>
+      <a :href="header.ctaMailto" class="header__cta">{{ header.ctaLabel }}</a>
     </nav>
 
     <!-- Mobile header bar -->
     <div class="header__mobile">
-      <RouterLink to="/" class="header__logo">Viviyan Corp.</RouterLink>
-      <button class="header__burger" aria-label="Open menu" @click="openMenu">
-        <span class="header__burger-icon">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect x="3" y="6" width="18" height="2" rx="1" fill="#faf4f1" />
-            <rect x="3" y="11" width="18" height="2" rx="1" fill="#faf4f1" />
-            <rect x="3" y="16" width="18" height="2" rx="1" fill="#faf4f1" />
-          </svg>
+      <RouterLink to="/" class="header__logo">{{ site.brandName }}</RouterLink>
+      <button
+        ref="burgerRef"
+        class="header__burger"
+        :class="{ 'header__burger--open': isMobileMenuOpen }"
+        :aria-label="isMobileMenuOpen ? header.closeMenuAriaLabel : header.openMenuAriaLabel"
+        :aria-expanded="isMobileMenuOpen"
+        @click="toggleMenu"
+      >
+        <span class="header__burger-icon" aria-hidden="true">
+          <span class="header__burger-line header__burger-line--top"></span>
+          <span class="header__burger-line header__burger-line--mid"></span>
+          <span class="header__burger-line header__burger-line--bot"></span>
         </span>
       </button>
     </div>
@@ -86,13 +99,10 @@ function handleCtaClick() {
   <MobileMenu
     :is-open="isMobileMenuOpen"
     :nav-items="navItems"
+    :cta-mailto="header.ctaMailto"
+    :menu="mobileMenu"
+    @navigate="handleMobileNavigate"
     @close="closeMenu"
-    @navigate="
-      href => {
-        scrollTo(href, true)
-        closeMenu()
-      }
-    "
   />
 </template>
 
@@ -107,14 +117,14 @@ function handleCtaClick() {
   &__desktop {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: to-rem(8);
     position: absolute;
-    top: 24px;
+    top: to-rem(24);
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       display: none;
     }
   }
@@ -122,33 +132,33 @@ function handleCtaClick() {
   &__nav-pill {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 4px;
-    background-color: #212122;
-    border-radius: 100px;
+    gap: to-rem(8);
+    padding: to-rem(4);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-pill);
   }
 
   &__nav-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 16px;
-    border-radius: 100px;
+    padding: to-rem(12) to-rem(16);
+    border-radius: var(--radius-pill);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: to-rem(16);
     font-weight: 400;
-    color: #faf4f1;
+    color: var(--color-text-primary);
     background: transparent;
     cursor: pointer;
-    border: none;
+    text-decoration: none;
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #404040;
+      background-color: var(--color-nav-hover);
     }
 
     &--active {
-      background-color: #404040;
+      background-color: var(--color-nav-hover);
     }
   }
 
@@ -156,16 +166,17 @@ function handleCtaClick() {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px 20px;
-    border-radius: 100px;
-    background-color: #ffcb3c;
+    padding: to-rem(16) to-rem(20);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent);
     font-family: var(--font-body);
-    font-size: 20px;
-    line-height: 24px;
+    font-size: to-rem(20);
+    line-height: to-rem(24);
     font-weight: 600;
-    color: #111;
+    color: var(--color-bg);
     border: none;
     cursor: pointer;
+    text-decoration: none;
     transition: opacity 0.2s ease;
 
     &:hover {
@@ -177,23 +188,23 @@ function handleCtaClick() {
     display: none;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
-    background-color: #111;
-    border-bottom: 1px solid #212122;
+    padding: to-rem(16);
+    background-color: var(--color-bg);
+    border-bottom: to-rem(1) solid var(--color-border);
     position: sticky;
     top: 0;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(#{to-rem(10)});
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       display: flex;
     }
   }
 
   &__logo {
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: to-rem(18);
     font-weight: 500;
-    color: #faf4f1;
+    color: var(--color-text-primary);
     text-decoration: none;
   }
 
@@ -201,18 +212,65 @@ function handleCtaClick() {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    background-color: #212122;
-    border-radius: 100px;
+    width: to-rem(48);
+    height: to-rem(48);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-pill);
     border: none;
     cursor: pointer;
   }
 
   &__burger-icon {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    width: to-rem(18);
+    height: to-rem(14);
+  }
+
+  &__burger-line {
+    display: block;
+    height: to-rem(2);
+    background-color: var(--color-text-primary);
+    border-radius: to-rem(1);
+    transform-origin: center;
+    transition:
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.2s ease;
+
+    &--top {
+      width: 100%;
+    }
+
+    &--mid {
+      width: 65%;
+      align-self: flex-end;
+    }
+
+    &--bot {
+      width: 100%;
+    }
+  }
+
+  &__burger--open {
+    .header__burger-line {
+      &--top {
+        width: 100%;
+        transform: translateY(to-rem(6)) rotate(45deg);
+      }
+
+      &--mid {
+        width: 100%;
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      &--bot {
+        width: 100%;
+        transform: translateY(to-rem(-6)) rotate(-45deg);
+      }
+    }
   }
 }
 </style>

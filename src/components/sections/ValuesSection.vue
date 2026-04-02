@@ -1,56 +1,18 @@
 <script setup lang="ts">
-// Values icons mapping (120×120 RGBA PNG):
-// Shape6  = 4-petal flower (pink-yellow)   → Transparency
-// Shape7  = S-form (yellow-green)           → Progress
-// Shape11 = 4-pointed star (blue-pink)      → Partnership
-//
-// NOTE: Number images (1, 2, 3) were not exported to shapes folder.
-// Numbers are rendered as styled text with CSS gradient to match the design intent.
-import shape6 from '@/assets/images/shapes/Shape6.png'
-import shape7 from '@/assets/images/shapes/Shape7.png'
-import shape11 from '@/assets/images/shapes/Shape11.png'
+import { useAppConfig } from '@/composables/useAppConfig'
 
-interface ValueItem {
-  number: string
-  iconImg: string
-  title: string
-  description: string
-}
-
-const values: ValueItem[] = [
-  {
-    number: '1',
-    iconImg: shape6,
-    title: 'Transparency',
-    description:
-      'We believe strong work starts with clear communication. No unnecessary complexity, no vague promises — just honest dialogue, realistic planning, and shared understanding at every stage.',
-  },
-  {
-    number: '2',
-    iconImg: shape7,
-    title: 'Progress',
-    description:
-      'We value movement, not noise. Step by step, we help businesses improve processes, strengthen operations, and move closer to their goals with confidence.',
-  },
-  {
-    number: '3',
-    iconImg: shape11,
-    title: 'Partnership',
-    description:
-      'We do not see cooperation as a formal process. We build long-term relationships based on trust, responsibility, and a real commitment to the people we work with.',
-  },
-]
+const { values, valueCards } = useAppConfig()
 </script>
 
 <template>
   <section id="values" class="values">
     <div class="values__header">
-      <h2 class="values__title">Our values</h2>
-      <p class="values__subtitle">Our values shape how we work on daily basis</p>
+      <h2 class="values__title">{{ values.sectionTitle }}</h2>
+      <p class="values__subtitle">{{ values.sectionSubtitle }}</p>
     </div>
 
     <div class="values__grid">
-      <article v-for="value in values" :key="value.title" class="values__card">
+      <article v-for="value in valueCards" :key="value.id" class="values__card">
         <!-- Icon top-right -->
         <div class="values__card-top">
           <img
@@ -61,8 +23,17 @@ const values: ValueItem[] = [
           />
         </div>
 
-        <!-- Number rendered as gradient text -->
-        <div class="values__card-number" aria-hidden="true">{{ value.number }}</div>
+        <!-- Number (Figma 1-480) -->
+        <div class="values__card-number">
+          <img
+            :src="value.numberImg"
+            :alt="value.number"
+            class="values__card-number-img"
+            width="140"
+            height="140"
+            loading="lazy"
+          />
+        </div>
 
         <!-- Text -->
         <div class="values__card-text">
@@ -76,32 +47,32 @@ const values: ValueItem[] = [
 
 <style scoped lang="scss">
 .values {
-  background-color: #111;
-  padding: 100px;
+  background-color: var(--color-bg);
+  padding: to-rem(100);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
+  gap: to-rem(60);
 
-  @media (max-width: 1024px) {
-    padding: 100px 40px;
+  @include mq($until: tablet) {
+    padding: to-rem(100) to-rem(40);
   }
 
-  @media (max-width: 767px) {
-    padding: 60px 16px;
-    gap: 50px;
+  @include mq($until: mobile) {
+    padding: to-rem(60) to-rem(16);
+    gap: to-rem(50);
   }
 
   &__header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: to-rem(16);
     text-align: center;
-    max-width: 1048px;
+    max-width: to-rem(1048);
     width: 100%;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       align-items: flex-start;
       text-align: left;
     }
@@ -113,26 +84,26 @@ const values: ValueItem[] = [
       'opsz' 14,
       'wdth' 100;
     font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
-    color: #faf4f1;
+    font-size: to-rem(48);
+    line-height: to-rem(56);
+    color: var(--color-text-primary);
 
-    @media (max-width: 767px) {
-      font-size: 32px;
-      line-height: 40px;
+    @include mq($until: mobile) {
+      font-size: to-rem(32);
+      line-height: to-rem(40);
     }
   }
 
   &__subtitle {
     font-family: var(--font-body);
-    font-size: 24px;
+    font-size: to-rem(24);
     font-weight: 400;
-    line-height: 32px;
-    color: #bfbfbf;
+    line-height: to-rem(32);
+    color: var(--color-text-secondary);
 
-    @media (max-width: 767px) {
-      font-size: 16px;
-      line-height: 24px;
+    @include mq($until: mobile) {
+      font-size: to-rem(16);
+      line-height: to-rem(24);
     }
   }
 
@@ -140,38 +111,39 @@ const values: ValueItem[] = [
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: to-rem(20);
     width: 100%;
-    max-width: 1240px;
+    max-width: to-rem(1240);
 
-    @media (max-width: 1024px) {
-      gap: 16px;
+    @include mq($until: tablet) {
+      gap: to-rem(16);
     }
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       flex-direction: column;
-      gap: 16px;
+      gap: to-rem(16);
     }
   }
 
   &__card {
     flex: 1;
-    background-color: #212122;
-    border-radius: 32px;
-    padding: 32px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    padding: to-rem(32);
     display: flex;
-    max-width: 400px;
-    min-width: 330px;
+    max-width: to-rem(400);
+    min-width: to-rem(330);
     flex-direction: column;
-    gap: 16px;
+    gap: to-rem(16);
 
-    @media (max-width: 1024px) {
-      padding: 24px;
+    @include mq($until: tablet) {
+      padding: to-rem(24);
     }
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       max-width: 100%;
-      padding: 24px;
+      min-width: 100%;
+      padding: to-rem(24);
     }
   }
 
@@ -182,55 +154,49 @@ const values: ValueItem[] = [
   }
 
   &__card-icon {
-    width: 60px;
-    height: 60px;
+    width: to-rem(60);
+    height: to-rem(60);
     object-fit: contain;
     display: block;
     flex-shrink: 0;
 
-    @media (max-width: 1024px) {
-      width: 48px;
-      height: 48px;
+    @include mq($until: tablet) {
+      width: to-rem(48);
+      height: to-rem(48);
     }
   }
 
   &__card-number {
-    width: 140px;
-    height: 140px;
+    width: to-rem(140);
+    height: to-rem(140);
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-shrink: 0;
-    font-family: var(--font-display);
-    font-variation-settings:
-      'opsz' 14,
-      'wdth' 100;
-    font-weight: 800;
-    font-size: 120px;
-    line-height: 1;
-    // Gradient text effect matching the design palette
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 40%, #a29bfe 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
 
-    @media (max-width: 1024px) {
-      width: 120px;
-      height: 120px;
-      font-size: 100px;
+    @include mq($until: tablet) {
+      width: to-rem(120);
+      height: to-rem(120);
     }
 
-    @media (max-width: 767px) {
-      width: 120px;
-      height: 120px;
-      font-size: 100px;
+    @include mq($until: mobile) {
+      width: to-rem(120);
+      height: to-rem(120);
     }
+  }
+
+  &__card-number-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+    display: block;
   }
 
   &__card-text {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: to-rem(16);
   }
 
   &__card-title {
@@ -239,30 +205,30 @@ const values: ValueItem[] = [
       'opsz' 14,
       'wdth' 100;
     font-weight: 500;
-    font-size: 40px;
-    line-height: 48px;
-    color: #faf4f1;
+    font-size: to-rem(40);
+    line-height: to-rem(48);
+    color: var(--color-text-primary);
 
-    @media (max-width: 1024px) {
-      font-size: 32px;
-      line-height: 40px;
+    @include mq($until: tablet) {
+      font-size: to-rem(32);
+      line-height: to-rem(40);
     }
 
-    @media (max-width: 767px) {
-      font-size: 32px;
-      line-height: 40px;
+    @include mq($until: mobile) {
+      font-size: to-rem(32);
+      line-height: to-rem(40);
     }
   }
 
   &__card-description {
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: to-rem(18);
     font-weight: 400;
-    line-height: 24px;
-    color: #bfbfbf;
+    line-height: to-rem(24);
+    color: var(--color-text-secondary);
 
-    @media (max-width: 767px) {
-      font-size: 16px;
+    @include mq($until: mobile) {
+      font-size: to-rem(16);
     }
   }
 }

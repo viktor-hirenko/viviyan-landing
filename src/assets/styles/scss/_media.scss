@@ -1,0 +1,37 @@
+@use 'sass:meta';
+@use 'breakpoints' as *;
+
+@function -resolve-bp($value) {
+  @if $value == null {
+    @return null;
+  }
+
+  @if meta.type-of($value) == 'string' {
+    @return breakpoint($value);
+  }
+
+  @return $value;
+}
+
+/// Viewport media queries. Pass breakpoint name or raw length.
+/// `@include mq($until: tablet)` → max-width; `@include mq($from: mobile)` → min-width.
+@mixin mq($from: null, $until: null) {
+  $min: -resolve-bp($from);
+  $max: -resolve-bp($until);
+
+  @if $min and $max {
+    @media (min-width: #{$min}) and (max-width: #{$max}) {
+      @content;
+    }
+  } @else if $min {
+    @media (min-width: #{$min}) {
+      @content;
+    }
+  } @else if $max {
+    @media (max-width: #{$max}) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

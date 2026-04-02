@@ -1,0 +1,29 @@
+@use 'sass:math';
+@use 'sass:meta';
+
+/// Root font size for px → rem (matches `html { font-size }` in main.scss).
+$base-font: 16px !default;
+
+@function to-rem($px, $base: $base-font) {
+  @if meta.type-of($px) == 'string' or meta.type-of($px) != 'number' {
+    @return $px;
+  }
+
+  @if math.unit($px) == 'rem' or math.unit($px) == 'em' {
+    @return $px;
+  }
+
+  @if math.is-unitless($px) {
+    $px: $px * 1px;
+  }
+
+  @if math.unit($px) == 'px' {
+    @if math.is-unitless($base) {
+      $base: $base * 1px;
+    }
+
+    @return math.div($px, $base) * 1rem;
+  }
+
+  @return $px;
+}

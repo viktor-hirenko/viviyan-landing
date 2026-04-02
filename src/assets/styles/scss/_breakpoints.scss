@@ -1,0 +1,10 @@
+@use 'sass:map';
+
+$breakpoints: (
+  mobile: 767px,
+  tablet: 1024px,
+) !default;
+
+@function breakpoint($name) {
+  @return map.get($breakpoints, $name);
+}

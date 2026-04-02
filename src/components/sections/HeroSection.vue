@@ -1,37 +1,22 @@
 <script setup lang="ts">
-// Hero shapes mapping (Shape1–5, 560×560 RGBA PNG with transparency):
-// Shape1 = ring (pink-blue)
-// Shape2 = rounded square (pink-yellow)
-// Shape3 = S-form (pink-orange)
-// Shape4 = blob/ameba (yellow-blue)
-// Shape5 = trefoil (pink-blue)
-import shape1 from '@/assets/images/shapes/Shape1.png'
-import shape2 from '@/assets/images/shapes/Shape2.png'
-import shape3 from '@/assets/images/shapes/Shape3.png'
-import shape4 from '@/assets/images/shapes/Shape4.png'
-import shape5 from '@/assets/images/shapes/Shape5.png'
+import { useAppConfig } from '@/composables/useAppConfig'
 
-const shapes = [shape1, shape2, shape3, shape4, shape5]
-
-// Mobile: first 2 shapes only
-const mobileShapes = [shapes[0], shapes[1]]
+const { hero, heroShapes } = useAppConfig()
 </script>
 
 <template>
   <section id="home" class="hero">
     <div class="hero__content">
       <h1 class="hero__title">
-        Build with clarity.<br />
-        Grow with confidence.
+        {{ hero.titleLine1 }}<br />
+        {{ hero.titleLine2 }}
       </h1>
-      <p class="hero__subtitle">Smart solutions for modern business.</p>
-      <!-- Mobile CTA button -->
-      <button class="hero__mobile-cta">Get in Touch</button>
+      <p class="hero__subtitle">{{ hero.subtitle }}</p>
+      <a :href="hero.ctaMailto" class="hero__mobile-cta">{{ hero.ctaLabel }}</a>
     </div>
 
-    <!-- Desktop: 5 shapes row -->
-    <div class="hero__shapes hero__shapes--desktop">
-      <div v-for="(src, i) in shapes" :key="i" class="hero__shape-container">
+    <div class="hero__shapes">
+      <div v-for="(src, i) in heroShapes" :key="i" class="hero__shape-container">
         <img
           :src="src"
           alt=""
@@ -41,40 +26,26 @@ const mobileShapes = [shapes[0], shapes[1]]
         />
       </div>
     </div>
-
-    <!-- Mobile: 2 shapes -->
-    <div class="hero__shapes hero__shapes--mobile">
-      <div v-for="(src, i) in mobileShapes" :key="i" class="hero__shape-container">
-        <img
-          :src="src"
-          alt=""
-          class="hero__shape-img"
-          :loading="i === 0 ? 'eager' : 'lazy'"
-          :fetchpriority="i === 0 ? 'high' : 'auto'"
-        />
-      </div>
-    </div>
   </section>
 </template>
 
 <style scoped lang="scss">
 .hero {
-  background-color: #111;
+  background-color: var(--color-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
   position: relative;
 
-  // Desktop: padding-top for header + content
-  padding-top: 220px;
-  padding-bottom: 60px;
+  padding-top: to-rem(220);
+  padding-bottom: to-rem(60);
 
-  @media (max-width: 1024px) {
-    padding-top: 220px;
+  @include mq($until: tablet) {
+    padding-top: to-rem(220);
   }
 
-  @media (max-width: 767px) {
+  @include mq($until: mobile) {
     padding-top: 0;
   }
 
@@ -82,24 +53,24 @@ const mobileShapes = [shapes[0], shapes[1]]
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: to-rem(40);
     text-align: center;
     width: 100%;
-    max-width: 998px;
+    max-width: to-rem(998);
     padding: 0;
-    margin-bottom: 135px;
+    margin-bottom: to-rem(135);
 
-    @media (max-width: 1024px) {
-      max-width: 910px;
-      margin-bottom: 134px;
+    @include mq($until: tablet) {
+      max-width: to-rem(910);
+      margin-bottom: to-rem(134);
     }
 
-    @media (max-width: 767px) {
-      padding: 160px 16px 0;
-      gap: 20px;
+    @include mq($until: mobile) {
+      padding: to-rem(160) to-rem(16) 0;
+      gap: to-rem(20);
       align-items: flex-start;
       text-align: left;
-      margin-bottom: 80px;
+      margin-bottom: to-rem(80);
     }
   }
 
@@ -109,17 +80,17 @@ const mobileShapes = [shapes[0], shapes[1]]
       'opsz' 14,
       'wdth' 100;
     font-weight: 800;
-    font-size: 88px;
-    line-height: 88px;
-    color: #faf4f1;
+    font-size: to-rem(88);
+    line-height: to-rem(88);
+    color: var(--color-text-primary);
 
-    @media (max-width: 1024px) {
-      font-size: 80px;
-      line-height: 88px;
+    @include mq($until: tablet) {
+      font-size: to-rem(80);
+      line-height: to-rem(88);
     }
 
-    @media (max-width: 767px) {
-      font-size: 36px;
+    @include mq($until: mobile) {
+      font-size: to-rem(36);
       line-height: 1.1;
       br {
         display: none;
@@ -129,14 +100,14 @@ const mobileShapes = [shapes[0], shapes[1]]
 
   &__subtitle {
     font-family: var(--font-body);
-    font-size: 24px;
+    font-size: to-rem(24);
     font-weight: 400;
-    color: #bfbfbf;
-    line-height: 32px;
+    color: var(--color-text-secondary);
+    line-height: to-rem(32);
 
-    @media (max-width: 767px) {
-      font-size: 16px;
-      line-height: 24px;
+    @include mq($until: mobile) {
+      font-size: to-rem(16);
+      line-height: to-rem(24);
     }
   }
 
@@ -144,55 +115,55 @@ const mobileShapes = [shapes[0], shapes[1]]
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 16px 24px;
-    border-radius: 100px;
-    background-color: #ffcb3c;
+    padding: to-rem(16) to-rem(24);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent);
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: to-rem(18);
     font-weight: 600;
-    color: #111;
+    color: var(--color-bg);
     border: none;
     cursor: pointer;
+    text-decoration: none;
 
-    @media (max-width: 767px) {
+    @include mq($until: mobile) {
       display: flex;
     }
   }
 
-  // ── Shapes row ──────────────────────────────────────────────────────────────
   &__shapes {
     display: flex;
+    max-width: to-rem(1440);
     width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
 
-    &--desktop {
-      @media (max-width: 767px) {
-        display: none;
-      }
-    }
-
-    &--mobile {
-      display: none;
-      padding: 0 16px;
-      gap: 0;
-
-      @media (max-width: 767px) {
-        display: flex;
-      }
-
-      .hero__shape-container {
-        flex: 1;
-        padding: 0;
-      }
+    @include mq($until: mobile) {
+      padding: 0 to-rem(12);
     }
   }
 
   &__shape-container {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
-    overflow: hidden;
+    padding: to-rem(4);
+    width: 20%;
+
+    @include mq($until: mobile) {
+      display: none;
+    }
+
+    /* 3-й и 4-й шейп в ряду (shape3, shape4); 204px при ширине вьюпорта 360 */
+    &:nth-child(2),
+    &:nth-child(3) {
+      @include mq($until: mobile) {
+        display: flex;
+        flex: 0 0 calc(204 * 100vw / 360);
+        width: calc(204 * 100vw / 360);
+      }
+    }
   }
 
   &__shape-img {

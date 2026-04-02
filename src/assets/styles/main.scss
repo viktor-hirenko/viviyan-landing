@@ -9,17 +9,18 @@
   --color-text-secondary: #bfbfbf;
   --color-text-muted: #999999;
   --color-border: #212122;
+  --color-nav-hover: #404040;
 
   --font-display: 'Bricolage Grotesque', sans-serif;
   --font-body: 'Inter', sans-serif;
 
-  --radius-pill: 100px;
-  --radius-card: 32px;
+  --radius-pill: #{to-rem(100)};
+  --radius-card: #{to-rem(32)};
 
-  --container-max: 1440px;
-  --container-pad-desktop: 100px;
-  --container-pad-tablet: 80px;
-  --container-pad-mobile: 16px;
+  --container-max: #{to-rem(1440)};
+  --container-pad-desktop: #{to-rem(100)};
+  --container-pad-tablet: #{to-rem(80)};
+  --container-pad-mobile: #{to-rem(16)};
 }
 
 // ─── Reset ───────────────────────────────────────────────────────────────────
@@ -29,6 +30,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -72,6 +74,18 @@ button {
 .font-display {
   font-family: var(--font-display);
   font-variation-settings: 'opsz' 14, 'wdth' 100;
+}
+
+// ─── Scroll offset for fixed mobile header ───────────────────────────────────
+#home,
+#about,
+#values,
+#services {
+  scroll-margin-top: 0;
+
+  @include mq($until: mobile) {
+    scroll-margin-top: to-rem(72);
+  }
 }
 
 // ─── Utility ─────────────────────────────────────────────────────────────────

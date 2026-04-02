@@ -1,0 +1,208 @@
+{
+  "site": {
+    "title": "VIVIYAN CORP LIMITED",
+    "description": "VIVIYAN CORP LIMITED — Smart solutions for modern business.",
+    "brandName": "Viviyan Corp."
+  },
+  "header": {
+    "navAriaLabel": "Main navigation",
+    "ctaLabel": "Get in Touch",
+    "openMenuAriaLabel": "Open menu",
+    "closeMenuAriaLabel": "Close menu",
+    "ctaMailto": "mailto:info@viviyan.co",
+    "nav": [
+      { "label": "Home", "href": "#home" },
+      { "label": "About", "href": "#about" },
+      { "label": "Our Values", "href": "#values" },
+      { "label": "Services", "href": "#services" }
+    ]
+  },
+  "hero": {
+    "titleLine1": "Build with clarity.",
+    "titleLine2": "Grow with confidence.",
+    "subtitle": "Smart solutions for modern business.",
+    "ctaLabel": "Get in Touch",
+    "ctaMailto": "mailto:info@viviyan.co",
+    "shapeKeys": ["shape1", "shape2", "shape3", "shape4", "shape5"]
+  },
+  "about": {
+    "titleBeforeAccent": "Focus on ",
+    "titleAccent": "growth",
+    "titleAfterAccent": " — we'll handle the execution.",
+    "descriptionLead": "VIVIYAN CORP LIMITED helps businesses turn ideas into working solutions. We combine practical thinking, structured execution, and a clear business focus to",
+    "descriptionHighlight": "support companies at different stages of growth.",
+    "features": [
+      { "label": "Practical thinking", "iconKey": "shape6" },
+      { "label": "Structured execution", "iconKey": "shape7" },
+      { "label": "Business focus", "iconKey": "shape8" }
+    ]
+  },
+  "services": {
+    "label": "Services",
+    "title": "We provide the support businesses need to operate and grow better.",
+    "description": "Business moves fast, and strong execution matters. VIVIYAN CORP LIMITED offers practical support and tailored solutions that help companies improve workflows, strengthen delivery, and work with more confidence.",
+    "shapeKeys": ["shape8", "shape9", "shape10"]
+  },
+  "values": {
+    "sectionTitle": "Our values",
+    "sectionSubtitle": "Our values shape how we work on daily basis",
+    "cards": [
+      {
+        "id": "transparency",
+        "numberKey": "number1",
+        "iconKey": "shape6",
+        "title": "Transparency",
+        "description": "We believe strong work starts with clear communication. No unnecessary complexity, no vague promises — just honest dialogue, realistic planning, and shared understanding at every stage."
+      },
+      {
+        "id": "progress",
+        "numberKey": "number2",
+        "iconKey": "shape7",
+        "title": "Progress",
+        "description": "We value movement, not noise. Step by step, we help businesses improve processes, strengthen operations, and move closer to their goals with confidence."
+      },
+      {
+        "id": "partnership",
+        "numberKey": "number3",
+        "iconKey": "shape11",
+        "title": "Partnership",
+        "description": "We do not see cooperation as a formal process. We build long-term relationships based on trust, responsibility, and a real commitment to the people we work with."
+      }
+    ]
+  },
+  "footer": {
+    "ctaText": "Stay aligned with business that moves forward.",
+    "ctaLabel": "Get in Touch",
+    "ctaMailto": "mailto:info@viviyan.co",
+    "copyright": "© 2026 VIVIYAN CORP LIMITED. All rights reserved.",
+    "links": [
+      { "label": "Privacy Policy", "path": "/privacy-policy" },
+      { "label": "Terms and Conditions", "path": "/terms-and-conditions" }
+    ]
+  },
+  "mobileMenu": {
+    "dialogAriaLabel": "Navigation menu",
+    "mobileNavAriaLabel": "Mobile navigation",
+    "ctaLabel": "Get in Touch"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": [
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries."
+      ],
+      "sections": [
+        {
+          "title": "Legal basis",
+          "type": "text",
+          "content": [
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+          ]
+        },
+        {
+          "title": "Data collocation and storage",
+          "type": "text",
+          "content": [
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+            "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+          ]
+        },
+        {
+          "title": "What information we collect",
+          "type": "list",
+          "content": [
+            "Basic Personal Data: name, surname, job title etc.",
+            "Identification information and other background verification data: (your or your representative's, ultimate beneficiary owners) – name, surname, personal identity code, date of birth, address, nationality, gender, passport or ID card copy, evidence of beneficial ownership or the source of funds, number of shares held, voting rights or share capital part, title.",
+            "Transaction data: beneficiary details, date, time, amount and currency which was used, name/IP address of sender and receiver, accounts, amount of transactions, income, location, etc.",
+            "Information related to legal requirements: data resulting from enquiries made by the authorities, data that enables us to perform anti-money laundering requirements and ensure the compliance with international sanctions, including the purpose of the business relationship and whether you are a politically exposed person and other data that is required to be processed by us in order to comply with the legal obligation to \"know your client\".",
+            "Contact Data: registered/actual place of residence, phone number, e–mail address etc."
+          ]
+        },
+        {
+          "title": "Purposes and legal basis for Personal Data processing",
+          "type": "mixed",
+          "intro": "We collect personal data for the purposes listed below:",
+          "content": [
+            "Conclusion of the contract or for performance of measures at your request prior to the conclusion of the contract (to identify and verify the clients).",
+            "We may process your Basic Personal Data, Identification and other background verification Data, Contact Information and other Personal Data (in order to identify the possibility of providing services).",
+            "Legal basis: concluding a contract with you, to fulfilling our legitimate interests and/or fulfilling the legal obligations applicable to us.",
+            "Fulfilment of a contract concluded with you.",
+            "For this purpose, we may process your Basic Personal Data, Identification and other background verification Data, Transaction Data, Information which is related to legal requirements, Contact Information and other Personal Data provided to us by or on behalf of you or generated by us in the course of providing services.",
+            "Legal basis: performance of a contract signed with you, fulfilling our or third parties' legitimate interests and/or compliance with legal obligations applicable to us.",
+            "Compliance with legal obligations.",
+            "For this purpose, we may process your Basic Personal Data, Identification and other background verification Data, Transaction Data, Information which is related to legal requirements, Contact Information and other Personal Data provided to us by or on behalf of you or generated by us in the course of providing services.",
+            "Legal basis: fulfilling our or third parties' legitimate interests and/or compliance with legal obligations applicable to us.",
+            "To provide an answer when you contact us through our website or other communication measures",
+            "For this purpose, we may process your Basic Personal Data, Contact Information and other Personal Data provided to us by or on behalf of you.",
+            "Legal basis: your consent, fulfilling our or third parties' legitimate interests."
+          ]
+        },
+        {
+          "title": "Further information",
+          "type": "mixed",
+          "intro": "We collect personal data for the purposes listed below:",
+          "content": [
+            "If you have any questions, concerns or complaints regarding our compliance with this Privacy Policy and the data protection laws, or if you wish to exercise your rights, we encourage you to first contact us using the contact details below. We will investigate and attempt to resolve complaints and disputes and will make every reasonable effort to honour your wish to exercise your rights as quickly as possible and in any event, within the timescales provided by data protection laws. Any questions, comments and requests regarding this Privacy Policy should be addressed by writing to us at: 1 Christaki Kranou, Germasogeia 4047, Limassol, Cyprus or by sending an e-mail to: info@viviyan.co."
+          ],
+          "isLastParagraph": true
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms and Conditions",
+      "intro": [
+        "These Terms and Conditions govern your use of the services provided by VIVIYAN CORP LIMITED. By accessing or using our services, you agree to be bound by these Terms. Please read them carefully before proceeding.",
+        "VIVIYAN CORP LIMITED reserves the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on this page. Your continued use of the services after any changes constitutes your acceptance of the new Terms."
+      ],
+      "sections": [
+        {
+          "title": "Acceptance of Terms",
+          "type": "text",
+          "content": [
+            "By accessing and using the services of VIVIYAN CORP LIMITED, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these Terms, please do not use our services."
+          ]
+        },
+        {
+          "title": "Services Description",
+          "type": "text",
+          "content": [
+            "VIVIYAN CORP LIMITED provides business consulting and support services designed to help companies improve their operations, workflows, and overall business performance.",
+            "We reserve the right to modify, suspend, or discontinue any aspect of our services at any time without prior notice."
+          ]
+        },
+        {
+          "title": "User Obligations",
+          "type": "list",
+          "content": [
+            "You must provide accurate and complete information when engaging with our services.",
+            "You agree not to use our services for any unlawful purpose or in violation of any applicable laws.",
+            "You are responsible for maintaining the confidentiality of any account credentials.",
+            "You must not attempt to gain unauthorized access to any part of our services or systems.",
+            "You agree to notify us immediately of any unauthorized use of your account."
+          ]
+        },
+        {
+          "title": "Intellectual Property",
+          "type": "mixed",
+          "intro": "All intellectual property rights in our services and content are owned by VIVIYAN CORP LIMITED:",
+          "content": [
+            "All content, trademarks, and other intellectual property displayed on our platform are the property of VIVIYAN CORP LIMITED.",
+            "You may not reproduce, distribute, or create derivative works without our express written permission.",
+            "Any feedback or suggestions you provide may be used by us without any obligation to you.",
+            "We grant you a limited, non-exclusive license to use our services for your internal business purposes."
+          ]
+        },
+        {
+          "title": "Contact Information",
+          "type": "mixed",
+          "intro": "For any questions regarding these Terms and Conditions:",
+          "content": [
+            "If you have any questions about these Terms and Conditions, please contact us at: 1 Christaki Kranou, Germasogeia 4047, Limassol, Cyprus or by sending an e-mail to: info@viviyan.co."
+          ],
+          "isLastParagraph": true
+        }
+      ]
+    }
+  }
+}

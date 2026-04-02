@@ -25,6 +25,6 @@ import AppFooter from '@/components/AppFooter.vue'
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #111;
+  background-color: var(--color-bg);
 }
 </style>
