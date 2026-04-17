@@ -16,7 +16,7 @@ const { hero, heroShapes } = useAppConfig()
     </div>
 
     <div class="hero__shapes">
-      <div v-for="(src, i) in heroShapes" :key="i" class="hero__shape-container">
+      <div v-for="(src, i) in heroShapes" :key="src" class="hero__shape-container">
         <img
           :src="src"
           alt=""

@@ -28,9 +28,38 @@ watch(
   },
 )
 
+const FOCUSABLE_SELECTORS =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+function getFocusableElements(): HTMLElement[] {
+  if (!dialogRef.value) return []
+  return Array.from(dialogRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS))
+}
+
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
     emit('close')
+    return
+  }
+
+  if (event.key === 'Tab') {
+    const focusable = getFocusableElements()
+    if (focusable.length === 0) return
+
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      }
+    } else {
+      if (document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
   }
 }
 </script>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue'
+import { onBeforeUnmount, ref, watch, watchEffect } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import MobileMenu from './MobileMenu.vue'
 import { useAppConfig } from '@/composables/useAppConfig'
+import { useSectionScrollSpy } from '@/composables/useSectionScrollSpy'
 
 const route = useRoute()
 const router = useRouter()
@@ -33,6 +34,18 @@ function syncActiveNavFromRoute() {
 
 watch(() => [route.path, route.hash] as const, syncActiveNavFromRoute, { immediate: true })
 
+useSectionScrollSpy({
+  route,
+  sectionHrefs: () => navItems.map(item => item.href),
+  minSwitchIntervalMs: 110,
+  setActiveHref(href) {
+    if (route.path !== '/') {
+      return
+    }
+    activeNavHref.value = href
+  },
+})
+
 function scrollTo(href: string) {
   activeNavHref.value = href
 
@@ -54,6 +67,10 @@ function handleMobileNavigate(href: string) {
 
 watchEffect(() => {
   document.body.style.overflow = isMobileMenuOpen.value ? 'hidden' : ''
+})
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = ''
 })
 </script>
 
@@ -151,7 +168,7 @@ watchEffect(() => {
     background: transparent;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.35s ease;
 
     &:hover {
       background-color: var(--color-nav-hover);

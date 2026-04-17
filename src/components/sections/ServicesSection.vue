@@ -21,7 +21,7 @@ const { services, servicesShapes } = useAppConfig()
       <div class="services__shapes">
         <img
           v-for="(src, i) in servicesShapes"
-          :key="i"
+          :key="src"
           :src="src"
           alt=""
           class="services__shape"
