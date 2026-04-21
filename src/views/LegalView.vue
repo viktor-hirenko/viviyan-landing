@@ -12,9 +12,15 @@ const props = defineProps<Props>()
 
 const { legal } = useAppConfig()
 
-const content = computed(() =>
-  props.type === 'privacy' ? legal.privacy : legal.terms,
-)
+const content = computed(() => (props.type === 'privacy' ? legal.privacy : legal.terms))
+
+function getSectionNumber(sections: typeof content.value.sections, index: number): number {
+  let count = 0
+  for (let i = 0; i <= index; i++) {
+    if (!sections[i].isUnnumbered) count++
+  }
+  return count
+}
 </script>
 
 <template>
@@ -22,68 +28,116 @@ const content = computed(() =>
     <AppHeader />
     <main class="legal__main">
       <div class="legal__container">
-        <h1 class="legal__title">{{ content.title }}</h1>
+        <div class="legal__header">
+          <h1 class="legal__title">{{ content.title }}</h1>
+          <p v-if="content.lastUpdated" class="legal__last-updated">{{ content.lastUpdated }}</p>
+        </div>
 
         <div class="legal__content">
           <!-- Intro paragraphs -->
           <div class="legal__block">
-            <p
-              v-for="(para, i) in content.intro"
-              :key="i"
-              class="legal__text"
-            >{{ para }}</p>
+            <p v-for="(para, i) in content.intro" :key="i" class="legal__text">{{ para }}</p>
           </div>
 
           <!-- Sections -->
           <div
-            v-for="section in content.sections"
+            v-for="(section, sectionIndex) in content.sections"
             :key="section.title"
             class="legal__block"
           >
-            <h2 class="legal__section-title">{{ section.title }}</h2>
+            <h2 class="legal__section-title">
+              <template v-if="!section.isUnnumbered"
+                >{{ getSectionNumber(content.sections, sectionIndex) }}. </template
+              >{{ section.title }}
+            </h2>
 
             <!-- Plain text -->
             <template v-if="section.type === 'text'">
-              <p
-                v-for="(para, i) in section.content"
-                :key="i"
-                class="legal__text"
-              >{{ para }}</p>
+              <p v-for="(para, i) in section.content" :key="i" class="legal__text">{{ para }}</p>
             </template>
 
             <!-- Bullet list -->
             <template v-else-if="section.type === 'list'">
               <ul class="legal__list">
-                <li
-                  v-for="(item, i) in section.content"
-                  :key="i"
-                  class="legal__list-item"
-                >{{ item }}</li>
+                <li v-for="(item, i) in section.content" :key="i" class="legal__list-item">
+                  {{ item }}
+                </li>
               </ul>
             </template>
 
             <!-- Mixed: intro + list or paragraph -->
             <template v-else-if="section.type === 'mixed'">
-              <p v-if="section.intro" class="legal__text">{{ section.intro }}</p>
-              <template v-if="section.isLastParagraph">
+              <template v-if="section.introLines">
                 <p
-                  v-for="(item, i) in section.content"
-                  :key="i"
+                  v-for="(line, li) in section.introLines"
+                  :key="'intro-' + li"
                   class="legal__text"
                 >
+                  {{ line }}
+                </p>
+              </template>
+              <p v-else-if="section.intro" class="legal__text">{{ section.intro }}</p>
+
+              <template v-if="section.isLastParagraph">
+                <p v-for="(item, i) in section.content" :key="i" class="legal__text">
                   <template v-if="item.includes('info@viviyan.co')">
-                    {{ item.split('info@viviyan.co')[0] }}<a href="mailto:info@viviyan.co" class="legal__email">info@viviyan.co.</a>
+                    {{ item.split('info@viviyan.co')[0]
+                    }}<a href="mailto:info@viviyan.co" class="legal__email">info@viviyan.co.</a>
                   </template>
                   <template v-else>{{ item }}</template>
                 </p>
               </template>
               <ul v-else class="legal__list">
-                <li
-                  v-for="(item, i) in section.content"
-                  :key="i"
-                  class="legal__list-item"
-                >{{ item }}</li>
+                <li v-for="(item, i) in section.content" :key="i" class="legal__list-item">
+                  {{ item }}
+                </li>
               </ul>
+
+              <template v-if="section.afterList">
+                <p v-for="(para, i) in section.afterList" :key="'after-' + i" class="legal__text">
+                  {{ para }}
+                </p>
+              </template>
+
+              <ul v-if="section.secondList" class="legal__list">
+                <li
+                  v-for="(item, i) in section.secondList"
+                  :key="'second-' + i"
+                  class="legal__list-item"
+                >
+                  {{ item }}
+                </li>
+              </ul>
+
+              <template v-if="section.afterSecondList">
+                <p
+                  v-for="(para, i) in section.afterSecondList"
+                  :key="'aftersecond-' + i"
+                  class="legal__text"
+                >
+                  {{ para }}
+                </p>
+              </template>
+
+              <ul v-if="section.thirdList" class="legal__list">
+                <li
+                  v-for="(item, i) in section.thirdList"
+                  :key="'third-' + i"
+                  class="legal__list-item"
+                >
+                  {{ item }}
+                </li>
+              </ul>
+
+              <template v-if="section.afterThirdList">
+                <p
+                  v-for="(para, i) in section.afterThirdList"
+                  :key="'afterthird-' + i"
+                  class="legal__text"
+                >
+                  {{ para }}
+                </p>
+              </template>
             </template>
           </div>
         </div>
@@ -126,13 +180,15 @@ const content = computed(() =>
     }
 
     @include mq($until: mobile) {
-      gap: to-rem(40);
+      gap: to-rem(50);
     }
   }
 
   &__title {
     font-family: var(--font-display);
-    font-variation-settings: 'opsz' 14, 'wdth' 100;
+    font-variation-settings:
+      'opsz' 14,
+      'wdth' 100;
     font-weight: 700;
     font-size: to-rem(64);
     line-height: to-rem(80);
@@ -151,6 +207,31 @@ const content = computed(() =>
     }
   }
 
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: to-rem(12);
+
+    @include mq($until: mobile) {
+      align-items: flex-start;
+    }
+  }
+
+  &__last-updated {
+    font-family: var(--font-body);
+    font-size: to-rem(14);
+    font-weight: 300;
+    line-height: to-rem(20);
+    color: var(--color-text-secondary);
+    text-align: center;
+    opacity: 0.6;
+
+    @include mq($until: mobile) {
+      text-align: left;
+    }
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -164,16 +245,14 @@ const content = computed(() =>
   &__block {
     display: flex;
     flex-direction: column;
-    gap: to-rem(32);
-
-    @include mq($until: mobile) {
-      gap: to-rem(20);
-    }
+    gap: to-rem(16);
   }
 
   &__section-title {
     font-family: var(--font-display);
-    font-variation-settings: 'opsz' 14, 'wdth' 100;
+    font-variation-settings:
+      'opsz' 14,
+      'wdth' 100;
     font-weight: 700;
     font-size: to-rem(40);
     line-height: to-rem(48);
@@ -197,17 +276,13 @@ const content = computed(() =>
     line-height: to-rem(24);
     color: var(--color-text-secondary);
 
-    & + & {
-      margin-top: to-rem(16);
-    }
-
     @include mq($until: mobile) {
       font-size: to-rem(16);
     }
   }
 
   &__list {
-    list-style: disc;
+    list-style: lower-alpha;
     padding-left: to-rem(27);
     display: flex;
     flex-direction: column;

@@ -119,11 +119,19 @@ export interface LegalSectionConfig {
   type: LegalBlockType
   content: string[]
   intro?: string
+  introLines?: string[]
+  afterList?: string[]
+  secondList?: string[]
+  afterSecondList?: string[]
+  thirdList?: string[]
+  afterThirdList?: string[]
   isLastParagraph?: boolean
+  isUnnumbered?: boolean
 }
 
 export interface LegalPageConfig {
   title: string
+  lastUpdated?: string
   intro: string[]
   sections: LegalSectionConfig[]
 }
