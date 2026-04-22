@@ -263,7 +263,8 @@
       "lastUpdated": "Last updated: 20/04/2026",
       "intro": [
         "Welcome to the website of VIVIYAN CORP LIMITED (\"Company\", \"We\", \"Our\", or \"Us\"), a company incorporated and registered in the Republic of Cyprus.",
-        "These Terms and Conditions (\"Terms\") constitute a legally binding agreement between you, as a visitor or user (\"You\", \"Your\", \"Visitor\") of this website https://viviyan.co/ (\"Website\"), and the Company. By accessing or using this website, you agree to be bound by this agreement. If you do not agree, please do not use the Website.",
+        "These Terms and Conditions (\"Terms\") constitute a legally binding agreement between you, as a visitor or user (\"You\", \"Your\", \"Visitor\") of this website https://viviyan.co (\"Website\"), and the Company. By accessing or using this website, you agree to be bound by this agreement. If you do not agree, please do not use the Website.",
+        "Your use of the Website is also governed by our Privacy Policy, which describes how we collect, use, and protect personal data.",
         "The Company provides general business-related information and may offer various services from time to time. However, no specific services are described or guaranteed on this website."
       ],
       "sections": [
@@ -291,9 +292,7 @@
             "Interferes with the operation, security, or availability of the website.",
             "Restricts or disrupts the use of the website by others."
           ],
-          "afterSecondList": [
-            "In particular, you agree not to:"
-          ],
+          "afterSecondList": ["In particular, you agree not to:"],
           "thirdList": [
             "Attempt to gain unauthorized access to the website or related systems.",
             "Introduce viruses, malware, or other harmful code.",

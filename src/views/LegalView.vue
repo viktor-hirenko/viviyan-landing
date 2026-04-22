@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import LegalRichText from '@/components/LegalRichText.vue'
 import { useAppConfig } from '@/composables/useAppConfig'
 
 interface Props {
@@ -36,7 +37,9 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
         <div class="legal__content">
           <!-- Intro paragraphs -->
           <div class="legal__block">
-            <p v-for="(para, i) in content.intro" :key="i" class="legal__text">{{ para }}</p>
+            <p v-for="(para, i) in content.intro" :key="i" class="legal__text">
+              <LegalRichText :text="para" :page="props.type" />
+            </p>
           </div>
 
           <!-- Sections -->
@@ -53,14 +56,16 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
 
             <!-- Plain text -->
             <template v-if="section.type === 'text'">
-              <p v-for="(para, i) in section.content" :key="i" class="legal__text">{{ para }}</p>
+              <p v-for="(para, i) in section.content" :key="i" class="legal__text">
+                <LegalRichText :text="para" :page="props.type" />
+              </p>
             </template>
 
             <!-- Bullet list -->
             <template v-else-if="section.type === 'list'">
               <ul class="legal__list">
                 <li v-for="(item, i) in section.content" :key="i" class="legal__list-item">
-                  {{ item }}
+                  <LegalRichText :text="item" :page="props.type" />
                 </li>
               </ul>
             </template>
@@ -73,29 +78,27 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
                   :key="'intro-' + li"
                   class="legal__text"
                 >
-                  {{ line }}
+                  <LegalRichText :text="line" :page="props.type" />
                 </p>
               </template>
-              <p v-else-if="section.intro" class="legal__text">{{ section.intro }}</p>
+              <p v-else-if="section.intro" class="legal__text">
+                <LegalRichText :text="section.intro" :page="props.type" />
+              </p>
 
               <template v-if="section.isLastParagraph">
                 <p v-for="(item, i) in section.content" :key="i" class="legal__text">
-                  <template v-if="item.includes('info@viviyan.co')">
-                    {{ item.split('info@viviyan.co')[0]
-                    }}<a href="mailto:info@viviyan.co" class="legal__email">info@viviyan.co.</a>
-                  </template>
-                  <template v-else>{{ item }}</template>
+                  <LegalRichText :text="item" :page="props.type" />
                 </p>
               </template>
               <ul v-else class="legal__list">
                 <li v-for="(item, i) in section.content" :key="i" class="legal__list-item">
-                  {{ item }}
+                  <LegalRichText :text="item" :page="props.type" />
                 </li>
               </ul>
 
               <template v-if="section.afterList">
                 <p v-for="(para, i) in section.afterList" :key="'after-' + i" class="legal__text">
-                  {{ para }}
+                  <LegalRichText :text="para" :page="props.type" />
                 </p>
               </template>
 
@@ -105,7 +108,7 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
                   :key="'second-' + i"
                   class="legal__list-item"
                 >
-                  {{ item }}
+                  <LegalRichText :text="item" :page="props.type" />
                 </li>
               </ul>
 
@@ -115,7 +118,7 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
                   :key="'aftersecond-' + i"
                   class="legal__text"
                 >
-                  {{ para }}
+                  <LegalRichText :text="para" :page="props.type" />
                 </p>
               </template>
 
@@ -125,7 +128,7 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
                   :key="'third-' + i"
                   class="legal__list-item"
                 >
-                  {{ item }}
+                  <LegalRichText :text="item" :page="props.type" />
                 </li>
               </ul>
 
@@ -135,7 +138,7 @@ function getSectionNumber(sections: typeof content.value.sections, index: number
                   :key="'afterthird-' + i"
                   class="legal__text"
                 >
-                  {{ para }}
+                  <LegalRichText :text="para" :page="props.type" />
                 </p>
               </template>
             </template>

@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && node scripts/deploy-r2.mjs"
+    "deploy": "npm run build && node scripts/deploy-r2.mjs",
+    "deploy:worker": "cd worker && npx wrangler deploy",
+    "deploy:all": "npm run deploy && npm run deploy:worker"
   },
   "dependencies": {
     "vue": "^3.4.0",
